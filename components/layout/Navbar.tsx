@@ -9,7 +9,7 @@ export default function Navbar() {
   className="flex items-center gap-3"
 >
   <img
-  src="/pslogo1.svg"
+  src="/pslogo.svg"
   alt="PlantSpot Logo"
   className="h-10 w-auto"
 />
