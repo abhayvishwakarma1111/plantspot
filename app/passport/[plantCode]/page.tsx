@@ -44,14 +44,24 @@ export default async function PassportPage({ params }: Props) {
 
   const adoptedDate = plant.adopted_at ? new Date(plant.adopted_at) : null;
 
+  const now = new Date();
+
   const daysTogether = adoptedDate
-    ? Math.max(
-        1,
-        Math.floor(
-          (Date.now() - adoptedDate.getTime()) / (1000 * 60 * 60 * 24),
-        ),
-      )
-    : 0;
+  ? Math.floor(
+      (Date.UTC(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate()
+      ) -
+      Date.UTC(
+        adoptedDate.getFullYear(),
+        adoptedDate.getMonth(),
+        adoptedDate.getDate()
+      )) /
+      86400000
+    ) + 1
+  : 0;
+    
 
   return (
     <main className="min-h-screen bg-linear-to-b from-green-50 via-[#F8FAF5] to-white">
@@ -115,7 +125,11 @@ export default async function PassportPage({ params }: Props) {
             <p className="mt-2 text-sm text-gray-500">Adopted</p>
 
             <p className="font-semibold text-gray-500">
-              {adoptedDate ? adoptedDate.toLocaleDateString() : "-"}
+              {adoptedDate ? adoptedDate.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric'
+}) : "-"}
             </p>
           </div>
 
@@ -140,6 +154,16 @@ export default async function PassportPage({ params }: Props) {
           <p className="leading-7 text-gray-700">
             {plantType.description || "Coming soon..."}
           </p>
+        </section>
+
+        <section className="mb-12 rounded-3xl bg-white shadow-lg p-6">
+          <h2 className="mb-5 text-2xl font-bold text-gray-500">🔮 Symbolism</h2>
+
+          <div className="rounded-2xl border bg-green-50 p-6">
+            <p className="leading-7 text-gray-700">
+              {plantType.symbolism || "Coming soon..."}
+            </p>
+          </div>
         </section>
 
         <section className="mb-12 rounded-3xl bg-white shadow-lg p-6">
